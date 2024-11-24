@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Diretórios e caminhos
-ARQUIVOS_TXT_DIR="/home/mais/celesc/arquivos_txt"
-SCRIPTS_DIR="/home/mais/celesc/scripts"
+ARQUIVOS_TXT_DIR="~/celesc/arquivos_txt"
+SCRIPTS_DIR="~/celesc/scripts"
 XLSX_FILE="${SCRIPTS_DIR}/manutencoes_formatadas.xlsx"
 EMAIL_DESTINO="ffolster@gmail.com,felipe@maisinternet.net.br,jakson@maisinternet.net.br,caio@maisinternet.net.br"
 ASSUNTO="Manutenções CELESC"
 MENSAGEM="Segue em anexo o relatório de manutenções CELESC."
-ARQUIVO_ANEXO="/home/mais/celesc/scripts/manutencoes_formatadas.xlsx"
+ARQUIVO_ANEXO="~/celesc/scripts/manutencoes_formatadas.xlsx"
 LOG_DIR="${SCRIPTS_DIR}/log"
 
 # Criando diretório de logs, se não existir
