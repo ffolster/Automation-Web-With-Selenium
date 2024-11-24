@@ -116,7 +116,7 @@ arquivos = {
 }
 
 # Cria o arquivo Excel
-arquivo_saida = '/home/mais/celesc/scripts/manutencoes_formatadas.xlsx'
+arquivo_saida = '~/scripts/manutencoes_formatadas.xlsx'
 with pd.ExcelWriter(arquivo_saida, engine='openpyxl') as writer:
     for aba, caminho in arquivos.items():
         df = processar_arquivo(caminho)
