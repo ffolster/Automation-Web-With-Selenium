@@ -1,6 +1,8 @@
 import pandas as pd
 import re
-import os  # Importa a biblioteca para verificar a existência do arquivo
+import os
+from openpyxl import load_workbook
+from openpyxl.worksheet.table import Table, TableStyleInfo
 
 def processar_arquivo(caminho_arquivo):
     # Inicializa listas para armazenar as informações extraídas
@@ -72,21 +74,55 @@ def processar_arquivo(caminho_arquivo):
 
     return df
 
+
+def formatar_tabelas_excel(arquivo_excel):
+    # Abre o arquivo Excel usando openpyxl
+    wb = load_workbook(arquivo_excel)
+    for sheet in wb.sheetnames:
+        ws = wb[sheet]
+
+        # Gera um nome de tabela válido (sem espaços)
+        table_name = f"Table_{sheet.replace(' ', '_')}"
+
+        # Define o intervalo da tabela (de A1 até a última linha e coluna)
+        tabela = Table(displayName=table_name, ref=ws.dimensions)
+
+        # Define o estilo da tabela
+        estilo = TableStyleInfo(
+            name="TableStyleMedium9",  # Escolha um estilo de tabela do Excel
+            showFirstColumn=False,
+            showLastColumn=False,
+            showRowStripes=True,
+            showColumnStripes=True,
+        )
+        tabela.tableStyleInfo = estilo
+
+        # Adiciona a tabela à aba
+        ws.add_table(tabela)
+
+    # Salva as alterações no arquivo Excel
+    wb.save(arquivo_excel)
+
+
 # Processa os arquivos e cria DataFrames
 arquivos = {
-    "Santo Amaro": r'C:\Users\Felipe Folster\PycharmProjects\pythonProject\venv\Scripts\Arquivos_txt\santo_amaro_da_imperatriz.txt',
-    "Palhoça": r'C:\Users\Felipe Folster\PycharmProjects\pythonProject\venv\Scripts\Arquivos_txt\palhoca.txt',
-    "Florianópolis": r'C:\Users\Felipe Folster\PycharmProjects\pythonProject\venv\Scripts\Arquivos_txt\florianopolis.txt',
-    "Garopaba": r'C:\Users\Felipe Folster\PycharmProjects\pythonProject\venv\Scripts\Arquivos_txt\garopaba.txt',
-    "São José": r'C:\Users\Felipe Folster\PycharmProjects\pythonProject\venv\Scripts\Arquivos_txt\sao_jose.txt',
-    "Águas Mornas": r'C:\Users\Felipe Folster\PycharmProjects\pythonProject\venv\Scripts\Arquivos_txt\aguas_mornas.txt',
-    "São Pedro de Alcântara": r'C:\Users\Felipe Folster\PycharmProjects\pythonProject\venv\Scripts\Arquivos_txt\sao_pedro_de_alcantara.txt',
+    "Santo Amaro": r'/home/mais/celesc/arquivos_txt/santo_amaro_da_imperatriz.txt',
+    "Palhoça": r'/home/mais/celesc/arquivos_txt/palhoca.txt',
+    "Florianópolis": r'/home/mais/celesc/arquivos_txt/florianopolis.txt',
+    "Garopaba": r'/home/mais/celesc/arquivos_txt/garopaba.txt',
+    "São José": r'/home/mais/celesc/arquivos_txt/sao_jose.txt',
+    "Águas Mornas": r'/home/mais/celesc/arquivos_txt/aguas_mornas.txt',
+    "São Pedro de Alcântara": r'/home/mais/celesc/arquivos_txt/sao_pedro_de_alcantara.txt',
 }
 
-# Exporta os DataFrames para diferentes abas no mesmo arquivo Excel
-with pd.ExcelWriter('manutencoes_formatadas.xlsx', engine='openpyxl') as writer:
+# Cria o arquivo Excel
+arquivo_saida = '/home/mais/celesc/scripts/manutencoes_formatadas.xlsx'
+with pd.ExcelWriter(arquivo_saida, engine='openpyxl') as writer:
     for aba, caminho in arquivos.items():
         df = processar_arquivo(caminho)
         df.to_excel(writer, sheet_name=aba, index=False)
 
-print("Arquivo Excel com múltiplas abas gerado com sucesso!")
+# Formata as abas do Excel como tabelas
+formatar_tabelas_excel(arquivo_saida)
+
+print("Arquivo Excel com múltiplas abas formatadas como tabelas gerado com sucesso!")
