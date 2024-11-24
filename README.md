@@ -6,4 +6,4 @@ Extração de dados do site da CELESC (Operadora de energia do estado de SC), or
 
 2 - Com o arquivo .txt devidamente gerado, executa-se o código organizador.py, que lê o arquivo .txt e organiza toda a estrutura em uma planilha excel, através de seu loop e seu regex exlusivo para o arquivo em questão.
 
-3 - Com o arquivo .xlsx gerado, enviamos, por exemplo, automaticamente por email aos interessados. Falta desencolver essa parte da automação
+3 - Com o arquivo .xlsx gerado temos oque precisamos para gerar o arquivo bash com a automação do sistema, a ideia é automatizar os 2 scripts em python, gerar os logs do funcionamento do sistema, enviar a planilha por email a quem interessar, e, efetuar a limpeza dos arquivos antigos toda vez que o software rodar, o "arquivo automacaobash.sh" deve ser ajustado para rodar quando necessário no crontab do servidor.
